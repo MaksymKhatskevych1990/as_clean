@@ -1,0 +1,11 @@
+.env
+backend/.env
+backend/.venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/*.sqlite3
+backend/media/
+backend/staticfiles/
+backend/data/
+clean/node_modules/
+clean/dist/

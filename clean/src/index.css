@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #f6f3ea;
+  --color-sage: #d5e7f2;
+  --color-peach: #f3e4a3;
+  --color-lavender: #c9dff5;
+  --color-sky: #d0e8f8;
+  --color-ink: #2c3640;
+  --color-ink-muted: #66727c;
+  --color-accent: #7eb3e0;
+  --color-accent-dark: #1e6fbf;
+  --color-rose: #ead56a;
+  --color-butter: #f6e7a8;
+  --color-white: #fbfaf4;
+  --font-sans: "Outfit", system-ui, sans-serif;
+  --font-display: "Cormorant Garamond", Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background:
+    radial-gradient(1200px 600px at 10% -10%, color-mix(in srgb, var(--color-peach) 55%, transparent), transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, color-mix(in srgb, var(--color-lavender) 45%, transparent), transparent 50%),
+    var(--color-cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+body::after {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 500;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+.field {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-ink) 16%, transparent);
+  background: transparent;
+  padding: 0.7rem 0;
+  outline: none;
+}
+
+.field:focus {
+  border-bottom-color: var(--color-accent-dark);
+}
+
+.btn-fill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  background: var(--color-peach);
+  color: var(--color-ink);
+  padding: 0.8rem 1.45rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.btn-fill:hover {
+  background: var(--color-rose);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-ink) 16%, transparent);
+  background: transparent;
+  color: var(--color-ink);
+  padding: 0.8rem 1.45rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.btn-ghost:hover {
+  border-color: var(--color-accent-dark);
+  background: color-mix(in srgb, var(--color-white) 70%, transparent);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-peach) 70%, white);
+}
+
+.compare {
+  touch-action: none;
+  user-select: none;
+}
+
+.compare-range {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  cursor: ew-resize;
+  opacity: 0;
+  appearance: none;
+}
+
+.compare-chip {
+  position: absolute;
+  top: 0.85rem;
+  z-index: 2;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-cream) 82%, transparent);
+  padding: 0.28rem 0.7rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  backdrop-filter: blur(8px);
+}
