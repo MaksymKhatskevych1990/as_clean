@@ -5,23 +5,23 @@ import { SectionHeading } from './SectionHeading'
 export function Contact() {
   const { contact } = useSite()
   const { ref, visible } = useInView()
+  const cards = contact.cards.filter((card) => card.value.trim())
+  const socials = contact.socials.filter((network) => network.url)
 
   return (
-    <section id="contact" className="bg-lavender/35 py-20 lg:py-28">
+    <section id="contact" className="bg-white py-16 lg:py-24">
       <div ref={ref} className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className={visible ? 'opacity-100' : 'opacity-0'}>
           <SectionHeading title={contact.title} />
         </div>
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
-          <div>
-            {contact.cards
-              .filter((card) => card.value.trim())
-              .map((card) => {
+        <div className="mt-10 grid gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-stretch">
+          <div className="flex flex-col gap-3">
+            {cards.map((card) => {
               const body = (
-                <div className="flex items-baseline justify-between gap-6 border-b border-ink/8 py-4">
+                <div className="rounded-2xl bg-cream px-5 py-5 transition hover:bg-sage">
                   <p className="eyebrow">{card.label}</p>
-                  <p className="text-right font-display text-xl italic text-ink">{card.value}</p>
+                  <p className="mt-2 font-display text-2xl leading-tight text-ink">{card.value}</p>
                 </div>
               )
               return card.href ? (
@@ -32,23 +32,23 @@ export function Contact() {
                 <div key={card.label}>{body}</div>
               )
             })}
-            <div className="mt-8 flex flex-wrap gap-x-5 gap-y-2">
-              {contact.socials
-                .filter((network) => network.url)
-                .map((network) => (
-                <a key={network.name} href={network.url} className="text-sm text-ink-muted hover:text-ink">
-                  {network.name}
-                </a>
-              ))}
-            </div>
+            {socials.length > 0 && (
+              <div className="mt-2 flex flex-wrap gap-2">
+                {socials.map((network) => (
+                  <a key={network.name} href={network.url} className="btn-ghost px-4 py-2.5 text-sm">
+                    {network.name}
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
           {contact.map_embed_url && (
-            <div className="min-h-[280px] overflow-hidden rounded-[1.8rem] bg-sage/40">
+            <div className="min-h-[300px] overflow-hidden rounded-[1.8rem] bg-cream">
               <iframe
                 title={contact.map_title || contact.title}
                 src={contact.map_embed_url}
-                className="h-full min-h-[280px] w-full grayscale"
+                className="h-full min-h-[300px] w-full"
                 loading="lazy"
               />
             </div>

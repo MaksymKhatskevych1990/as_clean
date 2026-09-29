@@ -22,6 +22,7 @@ from .models import (
     SeoSettings,
     Service,
     ServicesSection,
+    SectionVisibility,
     SiteChrome,
     SocialLink,
     Statistic,
@@ -58,6 +59,32 @@ def serialize_site(request):
     faq = FAQSection.load()
     booking = BookingSection.load()
     contacts = ContactSection.load()
+    visibility = SectionVisibility.load()
+    sections = {
+        'hero': visibility.show_hero,
+        'services': visibility.show_services,
+        'why_us': visibility.show_why_us,
+        'stats': visibility.show_stats,
+        'portfolio': visibility.show_portfolio,
+        'videos': visibility.show_videos,
+        'pricing': visibility.show_pricing,
+        'testimonials': visibility.show_testimonials,
+        'faq': visibility.show_faq,
+        'booking': visibility.show_booking,
+        'contact': visibility.show_contact,
+    }
+    nav_by_href = {
+        '#hero': 'hero',
+        '#services': 'services',
+        '#about': 'why_us',
+        '#portfolio': 'portfolio',
+        '#pricing': 'pricing',
+        '#testimonials': 'testimonials',
+        '#videos': 'videos',
+        '#faq': 'faq',
+        '#booking': 'booking',
+        '#contact': 'contact',
+    }
 
     return {
         'seo': {
@@ -79,8 +106,13 @@ def serialize_site(request):
             'brand_primary': chrome.brand_primary,
             'brand_accent': chrome.brand_accent,
             'cta_text': chrome.header_cta_text,
-            'nav': [{'href': item.href, 'label': item.label} for item in NavLink.objects.all()],
+            'nav': [
+                {'href': item.href, 'label': item.label}
+                for item in NavLink.objects.all()
+                if (key := nav_by_href.get(item.href)) is None or sections.get(key, True)
+            ],
         },
+        'sections': sections,
         'floating_button': chrome.floating_button_text,
         'footer': {
             'brand_primary': chrome.brand_primary,

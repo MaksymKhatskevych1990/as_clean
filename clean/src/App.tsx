@@ -13,28 +13,38 @@ import { Statistics } from './components/Statistics'
 import { Testimonials } from './components/Testimonials'
 import { VideoGallery } from './components/VideoGallery'
 import { WhyUs } from './components/WhyUs'
-import { SiteProvider } from './context/SiteContext'
+import { SiteProvider, useSite } from './context/SiteContext'
+
+function Page() {
+  const { sections } = useSite()
+
+  return (
+    <>
+      <Seo />
+      <Header />
+      <main>
+        {sections.hero && <Hero />}
+        {sections.services && <Services />}
+        {sections.why_us && <WhyUs />}
+        {sections.stats && <Statistics />}
+        {sections.portfolio && <Portfolio />}
+        {sections.videos && <VideoGallery />}
+        {sections.pricing && <Pricing />}
+        {sections.testimonials && <Testimonials />}
+        {sections.faq && <FAQ />}
+        {sections.booking && <BookingForm />}
+        {sections.contact && <Contact />}
+      </main>
+      <Footer />
+      {sections.booking && <FloatingButton />}
+    </>
+  )
+}
 
 export default function App() {
   return (
     <SiteProvider>
-      <Seo />
-      <Header />
-      <main>
-        <Hero />
-        <Services />
-        <WhyUs />
-        <Statistics />
-        <Portfolio />
-        <VideoGallery />
-        <Pricing />
-        <Testimonials />
-        <FAQ />
-        <BookingForm />
-        <Contact />
-      </main>
-      <Footer />
-      <FloatingButton />
+      <Page />
     </SiteProvider>
   )
 }

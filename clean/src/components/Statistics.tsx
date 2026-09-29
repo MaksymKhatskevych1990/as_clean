@@ -19,12 +19,12 @@ function StatItem({
   const display = decimals ? (count / 10 ** decimals).toFixed(decimals) : count.toLocaleString('uk-UA')
 
   return (
-    <div className="px-2 py-6 text-center sm:px-6">
-      <p className="font-display text-4xl italic text-ink sm:text-5xl">
+    <div className="px-3 py-8 text-center sm:px-6">
+      <p className="font-display text-4xl text-gold sm:text-5xl">
         {display}
         {suffix}
       </p>
-      <p className="mt-2 text-xs tracking-wide text-ink-muted">{label}</p>
+      <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-white/60">{label}</p>
     </div>
   )
 }
@@ -34,8 +34,8 @@ export function Statistics() {
   const { ref, visible } = useInView()
 
   return (
-    <section className="bg-peach/45">
-      <div ref={ref} className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-y divide-ink/8 sm:grid-cols-4 sm:divide-y-0">
+    <section className="bg-navy">
+      <div ref={ref} className="mx-auto grid max-w-6xl grid-cols-2 divide-x divide-y divide-white/10 sm:grid-cols-4 sm:divide-y-0">
         {stats.map((stat) => (
           <StatItem
             key={stat.label}

@@ -17,6 +17,19 @@ import {
 } from './content'
 
 export const fallbackSite: SiteContent = {
+  sections: {
+    hero: true,
+    services: false,
+    why_us: false,
+    stats: false,
+    portfolio: false,
+    videos: false,
+    pricing: false,
+    testimonials: false,
+    faq: false,
+    booking: true,
+    contact: true,
+  },
   seo: {
     title: 'AS clean — Професійне прибирання у Дніпрі',
     description:

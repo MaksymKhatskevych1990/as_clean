@@ -41,7 +41,7 @@ export function BeforeAfter({ before, after, title, beforeLabel, afterLabel }: B
   return (
     <div
       ref={frame}
-      className="compare group relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-peach/35"
+      className="compare group relative aspect-[4/5] overflow-hidden rounded-[1.6rem] bg-navy"
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={stopDrag}
@@ -76,7 +76,7 @@ export function BeforeAfter({ before, after, title, beforeLabel, afterLabel }: B
         className="pointer-events-none absolute inset-y-0 z-10 w-px bg-white/90"
         style={{ left: `${value}%` }}
       >
-        <span className="absolute top-1/2 left-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-cream text-ink shadow-[0_8px_24px_-12px_rgba(64,56,51,0.55)]">
+        <span className="absolute top-1/2 left-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-gold text-navy shadow-[0_8px_24px_-12px_rgba(7,20,34,0.55)]">
           <span className="text-xs tracking-widest">↔</span>
         </span>
       </div>

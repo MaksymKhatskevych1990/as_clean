@@ -14,8 +14,23 @@ export type SeoContent = {
   twitter_image: string
 }
 
+export type SectionVisibility = {
+  hero: boolean
+  services: boolean
+  why_us: boolean
+  stats: boolean
+  portfolio: boolean
+  videos: boolean
+  pricing: boolean
+  testimonials: boolean
+  faq: boolean
+  booking: boolean
+  contact: boolean
+}
+
 export type SiteContent = {
   seo: SeoContent
+  sections: SectionVisibility
   header: {
     brand_primary: string
     brand_accent: string

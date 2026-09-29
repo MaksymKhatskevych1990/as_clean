@@ -86,6 +86,27 @@ class SiteChrome(SingletonModel):
         return 'Шапка і футер'
 
 
+class SectionVisibility(SingletonModel):
+    show_hero = models.BooleanField('Hero', default=True)
+    show_services = models.BooleanField('Послуги', default=False)
+    show_why_us = models.BooleanField('Чому ми / про компанію', default=False)
+    show_stats = models.BooleanField('Статистика', default=False)
+    show_portfolio = models.BooleanField('До і після', default=False)
+    show_videos = models.BooleanField('Відео', default=False)
+    show_pricing = models.BooleanField('Ціни', default=False)
+    show_testimonials = models.BooleanField('Відгуки', default=False)
+    show_faq = models.BooleanField('FAQ', default=False)
+    show_booking = models.BooleanField('Форма замовлення', default=True)
+    show_contact = models.BooleanField('Контакти', default=True)
+
+    class Meta:
+        verbose_name = 'Видимість секцій'
+        verbose_name_plural = 'Видимість секцій'
+
+    def __str__(self):
+        return 'Видимість секцій'
+
+
 class NavLink(OrderedModel):
     href = models.CharField('Якір / URL', max_length=120)
     label = models.CharField('Текст', max_length=80)
@@ -269,12 +290,28 @@ class VideosSection(SingletonModel):
 
 
 class VideoItem(OrderedModel):
+    section = models.ForeignKey(
+        VideosSection,
+        on_delete=models.CASCADE,
+        related_name='items',
+        verbose_name='Секція',
+        default=1,
+    )
     title = models.CharField('Назва', max_length=200)
     description = models.TextField('Опис', blank=True)
     thumbnail = models.ImageField('Превʼю', upload_to='videos/thumbs/', blank=True)
     thumbnail_url = models.URLField('Превʼю (URL)', blank=True)
-    video = models.FileField('Відеофайл', upload_to='videos/', blank=True)
-    video_url = models.URLField('Відео (YouTube / Vimeo / MP4 URL)', blank=True)
+    video = models.FileField(
+        'Відеофайл',
+        upload_to='videos/',
+        blank=True,
+        help_text='MP4 / WebM, бажано до 80 МБ',
+    )
+    video_url = models.URLField(
+        'Або посилання на відео',
+        blank=True,
+        help_text='YouTube, Vimeo або прямий URL на MP4',
+    )
 
     class Meta(OrderedModel.Meta):
         verbose_name = 'Відео'

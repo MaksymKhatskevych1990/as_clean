@@ -17,7 +17,7 @@ export function Portfolio() {
       : items.filter((item) => item.category === active)
 
   return (
-    <section id="portfolio" className="py-20 lg:py-28">
+    <section id="portfolio" className="bg-cream py-16 lg:py-24">
       <div ref={ref} className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className={`flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between ${visible ? 'opacity-100' : 'opacity-0'}`}>
           <div className="max-w-xl">
@@ -28,14 +28,14 @@ export function Portfolio() {
             )}
           </div>
           {items.length > 0 && (
-          <div className="flex flex-wrap gap-x-5 gap-y-2">
+          <div className="flex flex-wrap gap-2">
             {categories.map((category) => (
               <button
                 key={category}
                 type="button"
                 onClick={() => setActive(category)}
-                className={`pb-1 text-sm transition ${
-                  active === category ? 'border-b border-ink text-ink' : 'text-ink-muted hover:text-ink'
+                className={`rounded-full px-4 py-2 text-sm font-bold transition ${
+                  active === category ? 'bg-navy text-white' : 'bg-white text-ink-muted hover:text-ink'
                 }`}
               >
                 {category}
@@ -57,7 +57,7 @@ export function Portfolio() {
                 afterLabel={portfolio.after_label}
               />
               <div className="mt-4 flex items-baseline justify-between gap-4">
-                <h3 className="font-display text-2xl italic text-ink">{item.title}</h3>
+                <h3 className="font-display text-2xl text-ink">{item.title}</h3>
                 <p className="eyebrow shrink-0">{item.category}</p>
               </div>
             </article>

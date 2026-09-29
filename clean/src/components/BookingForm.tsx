@@ -31,7 +31,7 @@ const initial: FormFields = {
 }
 
 export function BookingForm() {
-  const { booking } = useSite()
+  const { booking, hero } = useSite()
   const [step, setStep] = useState(0)
   const [form, setForm] = useState<FormFields>(initial)
   const [photos, setPhotos] = useState<File[]>([])
@@ -63,51 +63,58 @@ export function BookingForm() {
 
   if (submitted) {
     return (
-      <section id="booking" className="bg-sage/40 py-24 lg:py-32">
+      <section id="booking" className="bg-[#e7eef8] py-20 lg:py-28">
         <div className="mx-auto max-w-xl px-4 text-center sm:px-6">
-          <CheckCircle2 className="mx-auto h-14 w-14 text-accent-dark" />
-          <h2 className="mt-6 font-display text-4xl italic text-ink">{booking.success_title}</h2>
-          <p className="mt-4 text-ink-muted">{booking.success_text.replace('{name}', form.name)}</p>
+          <div className="rounded-[1.8rem] bg-white px-6 py-14 shadow-[0_30px_80px_-40px_rgba(7,20,34,0.45)]">
+            <CheckCircle2 className="mx-auto h-14 w-14 text-gold" />
+            <h2 className="mt-6 font-display text-4xl text-ink">{booking.success_title}</h2>
+            <p className="mt-4 text-ink-muted">{booking.success_text.replace('{name}', form.name)}</p>
+          </div>
         </div>
       </section>
     )
   }
 
   return (
-    <section id="booking" className="bg-sage/40 py-24 lg:py-32">
-      <div ref={ref} className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <div className={`${visible ? 'opacity-100' : 'opacity-0'} transition-opacity duration-700`}>
-          <h2 className="font-display text-4xl italic text-ink sm:text-5xl">
+    <section id="booking" className="bg-[#e7eef8] py-16 lg:py-24">
+      <div ref={ref} className="mx-auto grid max-w-6xl gap-6 px-4 sm:px-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+        <aside className={`rounded-[1.8rem] bg-navy p-7 text-white sm:p-9 lg:sticky lg:top-24 ${visible ? 'opacity-100' : 'opacity-0'} transition-opacity`}>
+          <h2 className="font-display text-4xl leading-[1.02] text-white sm:text-5xl">
             {booking.title}
           </h2>
-        </div>
-
-        <div className="mt-10 flex justify-center gap-2">
-          {booking.steps.map((label, i) => (
-            <div key={label} className="flex items-center gap-2">
-              <span
-                className={`flex h-8 w-8 items-center justify-center rounded-full text-sm ${
-                  i <= step ? 'bg-peach text-ink' : 'bg-white/70 text-ink-muted'
-                }`}
-              >
-                {i + 1}
-              </span>
-              <span className={`hidden text-sm sm:inline ${i <= step ? 'text-ink' : 'text-ink-muted'}`}>
-                {label}
-              </span>
-              {i < booking.steps.length - 1 && <div className="mx-2 hidden h-px w-8 bg-sage sm:block" />}
-            </div>
-          ))}
-        </div>
+          {hero.badges.length > 0 && (
+            <ul className="mt-8 space-y-3">
+              {hero.badges.map((badge) => (
+                <li key={badge} className="flex items-start gap-3 text-sm leading-snug text-white/85">
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold text-[0.7rem] font-extrabold text-navy">
+                    ✓
+                  </span>
+                  {badge}
+                </li>
+              ))}
+            </ul>
+          )}
+        </aside>
 
         <form
           onSubmit={onSubmit}
-          className="mt-10 rounded-[1.8rem] bg-white/70 p-6 sm:p-10"
+          className="rounded-[1.8rem] bg-white p-6 shadow-[0_30px_80px_-42px_rgba(7,20,34,0.55)] sm:p-8"
         >
+          <div className="grid gap-3 sm:grid-cols-3">
+            {booking.steps.map((label, i) => (
+              <div key={label}>
+                <div className={`h-1.5 rounded-full ${i <= step ? 'bg-gold' : 'bg-ink/10'}`} />
+                <p className={`mt-2 text-xs font-bold ${i === step ? 'text-ink' : 'text-ink-muted'}`}>
+                  {i + 1}. {label}
+                </p>
+              </div>
+            ))}
+          </div>
+
           {step === 0 && (
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="mt-8 grid gap-5 sm:grid-cols-2">
               <label className="block sm:col-span-2">
-                <span className="mb-2 block text-sm font-medium text-ink">{booking.name_label}</span>
+                <span className="mb-2 block text-sm font-bold text-ink">{booking.name_label}</span>
                 <input
                   required
                   value={form.name}
@@ -117,7 +124,7 @@ export function BookingForm() {
                 />
               </label>
               <label className="block">
-                <span className="mb-2 block text-sm font-medium text-ink">{booking.phone_label}</span>
+                <span className="mb-2 block text-sm font-bold text-ink">{booking.phone_label}</span>
                 <input
                   required
                   type="tel"
@@ -128,7 +135,7 @@ export function BookingForm() {
                 />
               </label>
               <label className="block">
-                <span className="mb-2 block text-sm font-medium text-ink">{booking.email_label}</span>
+                <span className="mb-2 block text-sm font-bold text-ink">{booking.email_label}</span>
                 <input
                   type="email"
                   value={form.email}
@@ -141,9 +148,9 @@ export function BookingForm() {
           )}
 
           {step === 1 && (
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="mt-8 grid gap-5 sm:grid-cols-2">
               <label className="block sm:col-span-2">
-                <span className="mb-2 block text-sm font-medium text-ink">{booking.address_label}</span>
+                <span className="mb-2 block text-sm font-bold text-ink">{booking.address_label}</span>
                 <input
                   required
                   value={form.address}
@@ -153,7 +160,7 @@ export function BookingForm() {
                 />
               </label>
               <label className="block">
-                <span className="mb-2 block text-sm font-medium text-ink">{booking.property_type_label}</span>
+                <span className="mb-2 block text-sm font-bold text-ink">{booking.property_type_label}</span>
                 <select
                   required
                   value={form.property_type}
@@ -167,7 +174,7 @@ export function BookingForm() {
                 </select>
               </label>
               <label className="block">
-                <span className="mb-2 block text-sm font-medium text-ink">{booking.area_label}</span>
+                <span className="mb-2 block text-sm font-bold text-ink">{booking.area_label}</span>
                 <input
                   required
                   type="number"
@@ -179,7 +186,7 @@ export function BookingForm() {
                 />
               </label>
               <label className="block sm:col-span-2">
-                <span className="mb-2 block text-sm font-medium text-ink">{booking.cleaning_type_label}</span>
+                <span className="mb-2 block text-sm font-bold text-ink">{booking.cleaning_type_label}</span>
                 <select
                   required
                   value={form.cleaning_type}
@@ -196,9 +203,9 @@ export function BookingForm() {
           )}
 
           {step === 2 && (
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="mt-8 grid gap-5 sm:grid-cols-2">
               <label className="block">
-                <span className="mb-2 block text-sm font-medium text-ink">{booking.date_label}</span>
+                <span className="mb-2 block text-sm font-bold text-ink">{booking.date_label}</span>
                 <input
                   required
                   type="date"
@@ -208,7 +215,7 @@ export function BookingForm() {
                 />
               </label>
               <label className="block">
-                <span className="mb-2 block text-sm font-medium text-ink">{booking.time_label}</span>
+                <span className="mb-2 block text-sm font-bold text-ink">{booking.time_label}</span>
                 <select
                   required
                   value={form.time}
@@ -222,7 +229,7 @@ export function BookingForm() {
                 </select>
               </label>
               <label className="block sm:col-span-2">
-                <span className="mb-2 block text-sm font-medium text-ink">{booking.comment_label}</span>
+                <span className="mb-2 block text-sm font-bold text-ink">{booking.comment_label}</span>
                 <textarea
                   rows={4}
                   value={form.comment}
@@ -232,11 +239,11 @@ export function BookingForm() {
                 />
               </label>
               <label className="block sm:col-span-2">
-                <span className="mb-2 block text-sm font-medium text-ink">{booking.photos_label}</span>
-                <div className="relative flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-ink/15 bg-peach/25 px-6 py-10">
+                <span className="mb-2 block text-sm font-bold text-ink">{booking.photos_label}</span>
+                <div className="relative flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-ink/15 bg-cream px-6 py-10">
                   <Upload className="h-7 w-7 text-accent-dark" />
-                  <span className="mt-3 text-sm font-medium text-ink">{booking.photos_hint}</span>
-                  <span className="mt-1 text-xs text-ink/50">
+                  <span className="mt-3 text-sm font-bold text-ink">{booking.photos_hint}</span>
+                  <span className="mt-1 text-xs text-ink-muted">
                     {photos.length ? `${photos.length} файл(ів)` : booking.photos_note}
                   </span>
                   <input
@@ -254,7 +261,7 @@ export function BookingForm() {
 
           {error && <p className="mt-6 text-sm text-red-600">{error}</p>}
 
-          <div className="mt-8 flex flex-col-reverse gap-4 sm:flex-row sm:justify-between">
+          <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:justify-between">
             {step > 0 ? (
               <button
                 type="button"

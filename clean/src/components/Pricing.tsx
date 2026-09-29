@@ -7,35 +7,41 @@ export function Pricing() {
   const { ref, visible } = useInView()
 
   return (
-    <section id="pricing" className="py-20 lg:py-28">
+    <section id="pricing" className="bg-cream py-16 lg:py-24">
       <div ref={ref} className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className={`lg:flex lg:items-end lg:justify-between ${visible ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={visible ? 'opacity-100' : 'opacity-0'}>
           <SectionHeading title={pricing.title} subtitle={pricing.subtitle} />
         </div>
 
-        <div className="mt-14 space-y-4">
+        <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {pricing.plans.map((plan) => (
             <article
               key={plan.name}
-              className={`grid gap-6 rounded-[1.8rem] px-6 py-7 sm:grid-cols-[10rem_1fr_auto] sm:items-center sm:px-8 ${
-                plan.highlighted ? 'bg-peach/70' : 'bg-white/60'
+              className={`flex flex-col rounded-[1.6rem] p-6 sm:p-7 ${
+                plan.highlighted
+                  ? 'bg-navy text-white shadow-[0_30px_60px_-36px_rgba(7,20,34,0.7)] md:-translate-y-2'
+                  : 'border border-ink/8 bg-white text-ink'
               }`}
             >
-              <div>
-                <h3 className="font-display text-3xl italic text-ink">{plan.name}</h3>
-                <p className="mt-1 font-display text-2xl text-ink">
-                  {plan.price} <span className="text-base text-ink-muted">{plan.unit}</span>
-                </p>
-              </div>
-              <div>
-                <p className="text-sm text-ink-muted">{plan.description}</p>
-                <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink">
-                  {plan.features.map((feature) => (
-                    <li key={feature}>{feature}</li>
-                  ))}
-                </ul>
-              </div>
-              <a href="#booking" className={plan.highlighted ? 'btn-fill justify-self-start' : 'btn-ghost justify-self-start'}>
+              <h3 className="font-display text-3xl">{plan.name}</h3>
+              <p className={`mt-3 font-display text-4xl ${plan.highlighted ? 'text-gold' : 'text-ink'}`}>
+                {plan.price}
+                <span className={`ml-2 text-base font-sans font-semibold ${plan.highlighted ? 'text-white/60' : 'text-ink-muted'}`}>
+                  {plan.unit}
+                </span>
+              </p>
+              <p className={`mt-3 text-sm leading-relaxed ${plan.highlighted ? 'text-white/70' : 'text-ink-muted'}`}>
+                {plan.description}
+              </p>
+              <ul className="mt-5 flex-1 space-y-2 text-sm">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex gap-2">
+                    <span className="text-gold">✓</span>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+              <a href="#booking" className={`mt-7 ${plan.highlighted ? 'btn-fill' : 'btn-ghost'}`}>
                 {plan.cta_text}
               </a>
             </article>

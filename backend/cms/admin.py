@@ -74,6 +74,27 @@ class SiteChromeAdmin(SingletonAdmin):
     )
 
 
+@admin.register(models.SectionVisibility)
+class SectionVisibilityAdmin(SingletonAdmin):
+    fieldsets = (
+        ('Увімкніть секцію, коли заповните її реальними даними', {
+            'fields': (
+                'show_hero',
+                'show_services',
+                'show_why_us',
+                'show_stats',
+                'show_portfolio',
+                'show_videos',
+                'show_pricing',
+                'show_testimonials',
+                'show_faq',
+                'show_booking',
+                'show_contact',
+            ),
+        }),
+    )
+
+
 @admin.register(models.NavLink)
 class NavLinkAdmin(OrderedAdmin):
     list_display = ('label', 'href', 'order')
@@ -171,9 +192,24 @@ class PortfolioItemAdmin(OrderedAdmin):
     preview.short_description = 'До / Після'
 
 
+class VideoItemInline(admin.StackedInline):
+    model = models.VideoItem
+    extra = 1
+    fields = (
+        'title',
+        'description',
+        'thumbnail',
+        'thumbnail_url',
+        'video',
+        'video_url',
+        'order',
+    )
+
+
 @admin.register(models.VideosSection)
 class VideosSectionAdmin(SingletonAdmin):
-    pass
+    inlines = [VideoItemInline]
+    fields = ('title',)
 
 
 @admin.register(models.VideoItem)

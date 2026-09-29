@@ -22,6 +22,7 @@ from cms.models import (
     PricingSection,
     PropertyType,
     SeoSettings,
+    SectionVisibility,
     Service,
     ServicesSection,
     SiteChrome,
@@ -118,6 +119,22 @@ class Command(BaseCommand):
                 'privacy_url': '#',
                 'terms_label': 'Умови',
                 'terms_url': '#',
+            },
+        )
+        SectionVisibility.objects.update_or_create(
+            pk=1,
+            defaults={
+                'show_hero': True,
+                'show_services': False,
+                'show_why_us': False,
+                'show_stats': False,
+                'show_portfolio': False,
+                'show_videos': False,
+                'show_pricing': False,
+                'show_testimonials': False,
+                'show_faq': False,
+                'show_booking': True,
+                'show_contact': True,
             },
         )
         Hero.objects.update_or_create(

@@ -14,7 +14,14 @@ export function SiteProvider({ children }: { children: ReactNode }) {
     const load = (attempt = 0) => {
       fetchSite()
         .then((data) => {
-          if (!cancelled) setSite(data as SiteContent)
+          if (!cancelled) {
+            const incoming = data as SiteContent
+            setSite({
+              ...fallbackSite,
+              ...incoming,
+              sections: { ...fallbackSite.sections, ...incoming.sections },
+            })
+          }
         })
         .catch(() => {
           if (cancelled) return

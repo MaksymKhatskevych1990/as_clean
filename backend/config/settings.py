@@ -96,6 +96,8 @@ STORAGES = {
 }
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+FILE_UPLOAD_MAX_MEMORY_SIZE = 80 * 1024 * 1024
+DATA_UPLOAD_MAX_MEMORY_SIZE = 80 * 1024 * 1024
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 if not DEBUG:
@@ -145,6 +147,7 @@ JAZZMIN_SETTINGS = {
         'cms.TelegramSettings',
         'cms.SeoSettings',
         'cms.SiteChrome',
+        'cms.SectionVisibility',
         'cms.NavLink',
         'cms.Hero',
         'cms.TrustBadge',
@@ -182,6 +185,7 @@ JAZZMIN_SETTINGS = {
         'cms.TelegramSettings': 'fab fa-telegram',
         'cms.SeoSettings': 'fas fa-search',
         'cms.SiteChrome': 'fas fa-window-maximize',
+        'cms.SectionVisibility': 'fas fa-eye',
         'cms.NavLink': 'fas fa-bars',
         'cms.Hero': 'fas fa-star',
         'cms.TrustBadge': 'fas fa-certificate',

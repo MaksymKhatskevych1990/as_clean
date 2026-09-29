@@ -10,8 +10,10 @@ function embedUrl(url: string) {
   return ''
 }
 
+type VideoItem = { title: string; description: string; thumb: string; video: string }
+
 export function VideoGallery() {
-  const { videos } = useSite()
+  const { videos, header } = useSite()
   const { ref, visible } = useInView()
   const items = videos.items.filter((item) => item.thumb || item.video)
   const [first, ...rest] = items
@@ -19,50 +21,60 @@ export function VideoGallery() {
   if (!items.length) return null
 
   return (
-    <section id="videos" className="bg-sky/40 py-20 lg:py-28">
+    <section id="videos" className="bg-white py-16 lg:py-24">
       <div ref={ref} className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className={visible ? 'opacity-100' : 'opacity-0'}>
           <SectionHeading title={videos.title} />
         </div>
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+        <div className="mt-10 grid gap-4 lg:grid-cols-2 lg:grid-rows-2">
           {first && (
-            <article>
-              <div className="overflow-hidden rounded-[1.6rem] bg-lavender/50">
-                <div className="aspect-[16/10]">
-                  <VideoMedia item={first} />
-                </div>
-              </div>
-              <h3 className="mt-5 font-display text-3xl italic text-ink">{first.title}</h3>
-              {first.description && <p className="mt-2 text-sm leading-relaxed text-ink-muted">{first.description}</p>}
-            </article>
+            <div className="lg:row-span-2">
+              <VideoCard item={first} large />
+            </div>
           )}
-          <div className="flex flex-col divide-y divide-ink/8">
-            {rest.map((video) => (
-              <article key={video.title} className="grid grid-cols-[7.5rem_1fr] gap-5 py-5 first:pt-0 last:pb-0 sm:grid-cols-[11rem_1fr]">
-                <div className="overflow-hidden rounded-2xl bg-peach/40">
-                  <div className="aspect-video">
-                    <VideoMedia item={video} />
-                  </div>
-                </div>
-                <div className="self-center">
-                  <h3 className="font-display text-2xl italic text-ink">{video.title}</h3>
-                  {video.description && <p className="mt-1 text-sm text-ink-muted">{video.description}</p>}
-                </div>
-              </article>
-            ))}
-          </div>
+          {rest.map((video) => (
+            <VideoCard key={video.title} item={video} />
+          ))}
+        </div>
+
+        <div className="mt-10">
+          <a href="#booking" className="btn-fill">
+            {header.cta_text}
+          </a>
         </div>
       </div>
     </section>
   )
 }
 
-function VideoMedia({
-  item,
-}: {
-  item: { title: string; thumb: string; video: string }
-}) {
+function VideoCard({ item, large = false }: { item: VideoItem; large?: boolean }) {
+  const embed = item.video ? embedUrl(item.video) : ''
+  const playable = Boolean(embed || item.video)
+
+  return (
+    <article className={`relative h-full overflow-hidden rounded-[1.6rem] bg-navy ${large ? 'min-h-[22rem]' : 'min-h-[13.5rem]'}`}>
+      <div className={playable ? '' : 'absolute inset-0'}>
+        <div className={playable ? 'aspect-video' : 'h-full min-h-[13.5rem]'}>
+          <VideoMedia item={item} />
+        </div>
+      </div>
+      {playable ? (
+        <div className="p-5">
+          <h3 className="font-display text-2xl text-white">{item.title}</h3>
+          {item.description && <p className="mt-1 text-sm leading-relaxed text-white/70">{item.description}</p>}
+        </div>
+      ) : (
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy via-navy/75 to-transparent p-5 pt-20">
+          <h3 className={`font-display text-white ${large ? 'text-3xl' : 'text-2xl'}`}>{item.title}</h3>
+          {item.description && <p className="mt-1 max-w-md text-sm leading-relaxed text-white/75">{item.description}</p>}
+        </div>
+      )}
+    </article>
+  )
+}
+
+function VideoMedia({ item }: { item: VideoItem }) {
   const embed = item.video ? embedUrl(item.video) : ''
   if (embed) {
     return (
