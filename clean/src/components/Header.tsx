@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { useSite } from '../context/SiteContext'
-import logo from '../img/logo.png'
+import logo from '../img/logo.webp'
 
 export function Header() {
   const { header } = useSite()

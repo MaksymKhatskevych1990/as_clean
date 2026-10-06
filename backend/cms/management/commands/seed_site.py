@@ -97,7 +97,7 @@ class Command(BaseCommand):
                 'meta_title': 'Прибирання квартир у Дніпрі та хімчистка | AS clean',
                 'meta_description': 'Клінінг у Дніпрі та області: квартири, будинки, офіси, генеральне, після ремонту, миття вікон і хімчистка меблів. Ціна відома до початку робіт. Замовте онлайн.',
                 'robots': 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
-                'canonical_url': 'http://184.107.166.63:8080/',
+                'canonical_url': 'https://asclean.dp.ua/',
                 'og_title': 'AS clean: прибирання і хімчистка у Дніпрі — ціна відома заздалегідь',
                 'og_description': 'Квартири, будинки, офіси та м’які меблі. Приїжджаємо вчасно, працюємо безпечними засобами і не додаємо доплат після огляду.',
                 'og_image_url': 'https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?auto=format&fit=crop&w=1200&h=630&q=80',

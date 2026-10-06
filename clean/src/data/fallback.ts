@@ -35,7 +35,7 @@ export const fallbackSite: SiteContent = {
     description:
       'Клінінг у Дніпрі та області: квартири, будинки, офіси, генеральне, після ремонту, миття вікон і хімчистка меблів. Ціна відома до початку робіт. Замовте онлайн.',
     robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
-    canonical: 'http://184.107.166.63:8080/',
+    canonical: 'https://asclean.dp.ua/',
     og_title: 'AS clean: прибирання і хімчистка у Дніпрі — ціна відома заздалегідь',
     og_description:
       'Квартири, будинки, офіси та м’які меблі. Приїжджаємо вчасно, працюємо безпечними засобами і не додаємо доплат після огляду.',

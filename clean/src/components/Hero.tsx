@@ -58,6 +58,8 @@ export function Hero() {
             <img
               src={hero.image}
               alt={hero.image_alt || hero.title}
+              fetchPriority="high"
+              decoding="async"
               className="absolute inset-0 h-full w-full object-cover"
             />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy/50 via-transparent to-transparent lg:bg-gradient-to-r lg:from-navy/25 lg:via-transparent lg:to-transparent" />

@@ -1,5 +1,5 @@
 import { useSite } from '../context/SiteContext'
-import logo from '../img/logo.png'
+import logo from '../img/logo.webp'
 
 export function Footer() {
   const { footer, header } = useSite()
