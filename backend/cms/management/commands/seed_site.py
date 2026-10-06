@@ -94,14 +94,19 @@ class Command(BaseCommand):
         SeoSettings.objects.update_or_create(
             pk=1,
             defaults={
-                'meta_title': 'AS clean — Професійне прибирання у Дніпрі',
-                'meta_description': 'Професійне прибирання квартир, будинків та офісів у Дніпрі та області. Гарантія якості, екологічні засоби, онлайн-замовлення.',
-                'robots': 'index, follow',
-                'og_title': 'AS clean — Професійне прибирання у Дніпрі',
-                'og_description': 'Прибираємо квартири, будинки та офіси в Дніпрі та області. Акуратно, вчасно, без прихованих доплат.',
+                'meta_title': 'Прибирання квартир у Дніпрі та хімчистка | AS clean',
+                'meta_description': 'Клінінг у Дніпрі та області: квартири, будинки, офіси, генеральне, після ремонту, миття вікон і хімчистка меблів. Ціна відома до початку робіт. Замовте онлайн.',
+                'robots': 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+                'canonical_url': 'http://184.107.166.63:8080/',
+                'og_title': 'AS clean: прибирання і хімчистка у Дніпрі — ціна відома заздалегідь',
+                'og_description': 'Квартири, будинки, офіси та м’які меблі. Приїжджаємо вчасно, працюємо безпечними засобами і не додаємо доплат після огляду.',
+                'og_image_url': 'https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?auto=format&fit=crop&w=1200&h=630&q=80',
                 'og_type': 'website',
                 'og_locale': 'uk_UA',
                 'twitter_card': 'summary_large_image',
+                'twitter_title': 'Прибирання і хімчистка у Дніпрі — AS clean',
+                'twitter_description': 'Квартири, будинки, офіси та хімчистка меблів у Дніпрі й області. Ціну називаємо до початку робіт.',
+                'twitter_image_url': 'https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?auto=format&fit=crop&w=1200&h=630&q=80',
             },
         )
         SiteChrome.objects.update_or_create(

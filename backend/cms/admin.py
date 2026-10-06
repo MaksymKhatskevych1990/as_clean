@@ -9,7 +9,7 @@ def thumb(url, alt=''):
     if not url:
         return '—'
     return format_html(
-        '<img src="{}" alt="{}" style="width:72px;height:54px;object-fit:cover;border-radius:8px;" />',
+        '<img src="{}" alt="{}" style="width:48px;height:36px;object-fit:cover;border-radius:6px;" />',
         url,
         alt,
     )
@@ -52,7 +52,12 @@ class TelegramSettingsAdmin(SingletonAdmin):
             kwargs['widget'] = PasswordInput(render_value=True)
         return super().formfield_for_dbfield(db_field, request, **kwargs)
 
-    fields = ('is_enabled', 'bot_token', 'chat_id')
+    fieldsets = (
+        (None, {
+            'fields': ('is_enabled', 'bot_token', 'chat_id'),
+            'description': 'Увімкніть, щоб нова заявка одразу приходила в цей чат.',
+        }),
+    )
 
 
 @admin.register(models.SiteChrome)
@@ -77,7 +82,8 @@ class SiteChromeAdmin(SingletonAdmin):
 @admin.register(models.SectionVisibility)
 class SectionVisibilityAdmin(SingletonAdmin):
     fieldsets = (
-        ('Увімкніть секцію, коли заповните її реальними даними', {
+        ('Що видно на головній', {
+            'description': 'Увімкнений блок з’являється на сайті. Вимкнений лишається тільки тут.',
             'fields': (
                 'show_hero',
                 'show_services',
@@ -335,7 +341,7 @@ class BookingPhotoInline(admin.TabularInline):
 
 @admin.register(models.Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('name', 'phone', 'cleaning_type', 'date', 'time', 'telegram_sent', 'created_at')
+    list_display = ('received', 'name', 'phone', 'cleaning_type', 'visit', 'telegram_state')
     list_filter = ('telegram_sent', 'cleaning_type', 'created_at')
     search_fields = ('name', 'phone', 'email', 'address')
     readonly_fields = (
@@ -343,3 +349,22 @@ class BookingAdmin(admin.ModelAdmin):
         'cleaning_type', 'date', 'time', 'comment', 'telegram_sent', 'telegram_error', 'created_at',
     )
     inlines = [BookingPhotoInline]
+
+    @admin.display(description='Надійшла', ordering='created_at')
+    def received(self, obj):
+        return obj.created_at.strftime('%d.%m %H:%M')
+
+    @admin.display(description='Візит', ordering='date')
+    def visit(self, obj):
+        if not obj.date:
+            return '—'
+        clock = obj.time or ''
+        return f'{obj.date:%d.%m.%Y} {clock}'.strip()
+
+    @admin.display(description='Telegram', ordering='telegram_sent')
+    def telegram_state(self, obj):
+        if obj.telegram_sent:
+            return 'надіслано'
+        if obj.telegram_error:
+            return 'помилка'
+        return 'ні'

@@ -68,7 +68,7 @@ FRONTEND_PID=$!
 
 echo
 echo "Сайт:    http://localhost:5173/"
-echo "Адмінка: http://127.0.0.1:8000/admin/"
+echo "Адмінка: http://127.0.0.1:8000/as_admin/"
 
 if command -v ngrok >/dev/null 2>&1; then
   if ! wait_for_port 5173; then

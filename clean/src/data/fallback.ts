@@ -31,20 +31,24 @@ export const fallbackSite: SiteContent = {
     contact: true,
   },
   seo: {
-    title: 'AS clean — Професійне прибирання у Дніпрі',
+    title: 'Прибирання квартир у Дніпрі та хімчистка | AS clean',
     description:
-      'Професійне прибирання квартир, будинків та офісів у Дніпрі та області. Гарантія якості, екологічні засоби, онлайн-замовлення.',
-    robots: 'index, follow',
-    canonical: '',
-    og_title: 'AS clean — Професійне прибирання у Дніпрі',
-    og_description: 'Прибираємо квартири, будинки та офіси в Дніпрі та області.',
-    og_image: '',
+      'Клінінг у Дніпрі та області: квартири, будинки, офіси, генеральне, після ремонту, миття вікон і хімчистка меблів. Ціна відома до початку робіт. Замовте онлайн.',
+    robots: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+    canonical: 'http://184.107.166.63:8080/',
+    og_title: 'AS clean: прибирання і хімчистка у Дніпрі — ціна відома заздалегідь',
+    og_description:
+      'Квартири, будинки, офіси та м’які меблі. Приїжджаємо вчасно, працюємо безпечними засобами і не додаємо доплат після огляду.',
+    og_image:
+      'https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?auto=format&fit=crop&w=1200&h=630&q=80',
     og_type: 'website',
     og_locale: 'uk_UA',
     twitter_card: 'summary_large_image',
-    twitter_title: 'AS clean — Професійне прибирання у Дніпрі',
-    twitter_description: 'Прибираємо квартири, будинки та офіси в Дніпрі та області.',
-    twitter_image: '',
+    twitter_title: 'Прибирання і хімчистка у Дніпрі — AS clean',
+    twitter_description:
+      'Квартири, будинки, офіси та хімчистка меблів у Дніпрі й області. Ціну називаємо до початку робіт.',
+    twitter_image:
+      'https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?auto=format&fit=crop&w=1200&h=630&q=80',
   },
   header: {
     brand_primary: 'AS',

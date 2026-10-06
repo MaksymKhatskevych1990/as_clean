@@ -1,0 +1,35 @@
+.nav-sidebar .nav-header {
+    padding: 0.55rem 1rem 0.15rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.nav-sidebar .nav-link {
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+}
+
+.nav-sidebar .nav-link p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+body.change-list .table td,
+body.change-list .table th {
+    padding: 0.4rem 0.6rem;
+    vertical-align: middle;
+}
+
+body.change-form .form-group {
+    margin-bottom: 0.65rem;
+}
+
+body.change-form .card-body {
+    padding: 0.85rem 1rem;
+}
+
+.app-content-header {
+    padding: 0.5rem 0.5rem 0;
+}

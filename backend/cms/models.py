@@ -79,29 +79,29 @@ class SiteChrome(SingletonModel):
     terms_url = models.CharField('URL умов', max_length=255, blank=True, default='#')
 
     class Meta:
-        verbose_name = 'Шапка і футер'
-        verbose_name_plural = 'Шапка і футер'
+        verbose_name = 'Шапка і підвал'
+        verbose_name_plural = 'Шапка і підвал'
 
     def __str__(self):
         return 'Шапка і футер'
 
 
 class SectionVisibility(SingletonModel):
-    show_hero = models.BooleanField('Hero', default=True)
+    show_hero = models.BooleanField('Перший екран', default=True)
     show_services = models.BooleanField('Послуги', default=False)
-    show_why_us = models.BooleanField('Чому ми / про компанію', default=False)
-    show_stats = models.BooleanField('Статистика', default=False)
+    show_why_us = models.BooleanField('Чому ми', default=False)
+    show_stats = models.BooleanField('Цифри', default=False)
     show_portfolio = models.BooleanField('До і після', default=False)
     show_videos = models.BooleanField('Відео', default=False)
     show_pricing = models.BooleanField('Ціни', default=False)
     show_testimonials = models.BooleanField('Відгуки', default=False)
-    show_faq = models.BooleanField('FAQ', default=False)
+    show_faq = models.BooleanField('Питання', default=False)
     show_booking = models.BooleanField('Форма замовлення', default=True)
     show_contact = models.BooleanField('Контакти', default=True)
 
     class Meta:
-        verbose_name = 'Видимість секцій'
-        verbose_name_plural = 'Видимість секцій'
+        verbose_name = 'Блоки на сайті'
+        verbose_name_plural = 'Блоки на сайті'
 
     def __str__(self):
         return 'Видимість секцій'
@@ -123,8 +123,8 @@ class FooterService(OrderedModel):
     title = models.CharField('Назва', max_length=120)
 
     class Meta(OrderedModel.Meta):
-        verbose_name = 'Послуга у футері'
-        verbose_name_plural = 'Послуги у футері'
+        verbose_name = 'Послуга в підвалі'
+        verbose_name_plural = 'Послуги в підвалі'
 
     def __str__(self):
         return self.title
@@ -144,8 +144,8 @@ class Hero(SingletonModel):
     caption = models.CharField('Підпис під фото', max_length=255, blank=True)
 
     class Meta:
-        verbose_name = 'Hero'
-        verbose_name_plural = 'Hero'
+        verbose_name = 'Перший екран'
+        verbose_name_plural = 'Перший екран'
 
     def __str__(self):
         return 'Hero'
@@ -155,8 +155,8 @@ class TrustBadge(OrderedModel):
     text = models.CharField('Текст', max_length=255)
 
     class Meta(OrderedModel.Meta):
-        verbose_name = 'Бейдж довіри'
-        verbose_name_plural = 'Бейджі довіри'
+        verbose_name = 'Плашка'
+        verbose_name_plural = 'Плашки'
 
     def __str__(self):
         return self.text
@@ -167,8 +167,8 @@ class ServicesSection(SingletonModel):
     subtitle = models.TextField('Підзаголовок', blank=True)
 
     class Meta:
-        verbose_name = 'Секція послуг'
-        verbose_name_plural = 'Секція послуг'
+        verbose_name = 'Заголовок послуг'
+        verbose_name_plural = 'Заголовок послуг'
 
     def __str__(self):
         return self.title
@@ -193,8 +193,8 @@ class WhyUsSection(SingletonModel):
     subtitle = models.TextField('Підзаголовок', blank=True)
 
     class Meta:
-        verbose_name = 'Секція «Чому ми»'
-        verbose_name_plural = 'Секція «Чому ми»'
+        verbose_name = 'Заголовок «Чому ми»'
+        verbose_name_plural = 'Заголовок «Чому ми»'
 
     def __str__(self):
         return self.title
@@ -205,8 +205,8 @@ class Advantage(OrderedModel):
     description = models.TextField('Опис')
 
     class Meta(OrderedModel.Meta):
-        verbose_name = 'Перевага'
-        verbose_name_plural = 'Переваги'
+        verbose_name = 'Аргумент'
+        verbose_name_plural = 'Аргументи'
 
     def __str__(self):
         return self.title
@@ -219,8 +219,8 @@ class Statistic(OrderedModel):
     decimals = models.PositiveSmallIntegerField('Знаків після коми', default=0)
 
     class Meta(OrderedModel.Meta):
-        verbose_name = 'Статистика'
-        verbose_name_plural = 'Статистика'
+        verbose_name = 'Цифра'
+        verbose_name_plural = 'Цифри'
 
     def __str__(self):
         return self.label
@@ -234,8 +234,8 @@ class PortfolioSection(SingletonModel):
     after_label = models.CharField('Підпис «Після»', max_length=40, default='Після')
 
     class Meta:
-        verbose_name = 'Налаштування блоку «До і після»'
-        verbose_name_plural = 'Налаштування блоку «До і після»'
+        verbose_name = 'Заголовок «До і після»'
+        verbose_name_plural = 'Заголовок «До і після»'
 
     def __str__(self):
         return 'Налаштування блоку «До і після»'
@@ -245,8 +245,8 @@ class PortfolioCategory(OrderedModel):
     name = models.CharField('Назва', max_length=80, unique=True)
 
     class Meta(OrderedModel.Meta):
-        verbose_name = 'Категорія «До і після»'
-        verbose_name_plural = 'Категорії «До і після»'
+        verbose_name = 'Категорія робіт'
+        verbose_name_plural = 'Категорії робіт'
 
     def __str__(self):
         return self.name
@@ -271,8 +271,8 @@ class PortfolioItem(OrderedModel):
     after_image_url = models.URLField('Або URL фото «Після»', blank=True)
 
     class Meta(OrderedModel.Meta):
-        verbose_name = 'Фото «До і після»'
-        verbose_name_plural = 'Фото «До і після»'
+        verbose_name = 'Фото роботи'
+        verbose_name_plural = 'Фото робіт'
 
     def __str__(self):
         return self.title
@@ -282,8 +282,8 @@ class VideosSection(SingletonModel):
     title = models.CharField('Заголовок', max_length=255, default='Як ми працюємо')
 
     class Meta:
-        verbose_name = 'Секція відео'
-        verbose_name_plural = 'Секція відео'
+        verbose_name = 'Заголовок відео'
+        verbose_name_plural = 'Заголовок відео'
 
     def __str__(self):
         return self.title
@@ -326,8 +326,8 @@ class PricingSection(SingletonModel):
     subtitle = models.TextField('Підзаголовок', blank=True)
 
     class Meta:
-        verbose_name = 'Секція цін'
-        verbose_name_plural = 'Секція цін'
+        verbose_name = 'Заголовок цін'
+        verbose_name_plural = 'Заголовок цін'
 
     def __str__(self):
         return self.title
@@ -365,8 +365,8 @@ class TestimonialsSection(SingletonModel):
     title = models.CharField('Заголовок', max_length=255, default='Відгуки клієнтів')
 
     class Meta:
-        verbose_name = 'Секція відгуків'
-        verbose_name_plural = 'Секція відгуків'
+        verbose_name = 'Заголовок відгуків'
+        verbose_name_plural = 'Заголовок відгуків'
 
     def __str__(self):
         return self.title
@@ -390,8 +390,8 @@ class FAQSection(SingletonModel):
     title = models.CharField('Заголовок', max_length=255, default='Часті запитання')
 
     class Meta:
-        verbose_name = 'Секція FAQ'
-        verbose_name_plural = 'Секція FAQ'
+        verbose_name = 'Заголовок питань'
+        verbose_name_plural = 'Заголовок питань'
 
     def __str__(self):
         return self.title
@@ -402,8 +402,8 @@ class FAQItem(OrderedModel):
     answer = models.TextField('Відповідь')
 
     class Meta(OrderedModel.Meta):
-        verbose_name = 'FAQ'
-        verbose_name_plural = 'FAQ'
+        verbose_name = 'Питання'
+        verbose_name_plural = 'Питання'
 
     def __str__(self):
         return self.question
@@ -447,8 +447,8 @@ class BookingSection(SingletonModel):
     )
 
     class Meta:
-        verbose_name = 'Форма замовлення'
-        verbose_name_plural = 'Форма замовлення'
+        verbose_name = 'Тексти форми'
+        verbose_name_plural = 'Тексти форми'
 
     def __str__(self):
         return 'Форма замовлення'
@@ -480,8 +480,8 @@ class TimeSlot(OrderedModel):
     label = models.CharField('Інтервал', max_length=40)
 
     class Meta(OrderedModel.Meta):
-        verbose_name = 'Часовий слот'
-        verbose_name_plural = 'Часові слоти'
+        verbose_name = 'Година візиту'
+        verbose_name_plural = 'Години візиту'
 
     def __str__(self):
         return self.label
@@ -493,8 +493,8 @@ class ContactSection(SingletonModel):
     map_title = models.CharField('Title карти', max_length=160, blank=True)
 
     class Meta:
-        verbose_name = 'Секція контактів'
-        verbose_name_plural = 'Секція контактів'
+        verbose_name = 'Заголовок контактів'
+        verbose_name_plural = 'Заголовок контактів'
 
     def __str__(self):
         return self.title
@@ -517,8 +517,8 @@ class ContactCard(OrderedModel):
     )
 
     class Meta(OrderedModel.Meta):
-        verbose_name = 'Картка контакту'
-        verbose_name_plural = 'Картки контактів'
+        verbose_name = 'Рядок контакту'
+        verbose_name_plural = 'Рядки контактів'
 
     def __str__(self):
         return self.label

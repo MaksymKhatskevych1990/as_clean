@@ -5,3 +5,8 @@ class CmsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'cms'
     verbose_name = 'Контент сайту'
+
+    def ready(self):
+        from .admin_groups import install
+
+        install()
