@@ -4,7 +4,7 @@ from pathlib import Path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.http import FileResponse
+from django.http import FileResponse, HttpResponse
 from django.urls import include, path, re_path
 from django.views.generic import TemplateView
 
@@ -17,6 +17,31 @@ _SCRIPT_TYPES = {
     '.mjs': 'text/javascript',
     '.css': 'text/css',
 }
+
+
+def robots_txt(request):
+    sitemap = f'{settings.SITE_URL}/sitemap.xml'
+    body = (
+        'User-agent: *\n'
+        'Allow: /\n'
+        'Disallow: /as_admin/\n'
+        '\n'
+        f'Sitemap: {sitemap}\n'
+    )
+    return HttpResponse(body, content_type='text/plain; charset=utf-8')
+
+
+def sitemap_xml(request):
+    loc = settings.SITE_URL.rstrip('/') + '/'
+    body = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        '  <url>\n'
+        f'    <loc>{loc}</loc>\n'
+        '  </url>\n'
+        '</urlset>\n'
+    )
+    return HttpResponse(body, content_type='application/xml; charset=utf-8')
 
 
 def frontend(request, resource=''):
@@ -39,6 +64,8 @@ def frontend(request, resource=''):
 urlpatterns = [
     path('as_admin/', admin.site.urls),
     path('api/', include('cms.urls')),
+    path('robots.txt', robots_txt),
+    path('sitemap.xml', sitemap_xml),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
