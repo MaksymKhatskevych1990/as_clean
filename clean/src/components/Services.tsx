@@ -1,9 +1,11 @@
+import { useBookingChoice } from '../context/BookingChoice'
 import { useSite } from '../context/SiteContext'
 import { useInView } from '../hooks/useInView'
 import { SectionHeading } from './SectionHeading'
 
 export function Services() {
   const { services, header } = useSite()
+  const { select } = useBookingChoice()
   const { ref, visible } = useInView()
 
   if (!services.items.length) return null
@@ -38,7 +40,11 @@ export function Services() {
                 <p className="mt-3 text-sm leading-relaxed text-ink-muted">
                   {service.description}
                 </p>
-                <a href="#booking" className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold text-accent-dark">
+                <a
+                  href="#booking"
+                  onClick={() => select(service.title)}
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold text-accent-dark"
+                >
                   {header.cta_text}
                   <span aria-hidden>→</span>
                 </a>

@@ -6,6 +6,7 @@ import { Footer } from './components/Footer'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { Seo } from './components/Seo'
+import { BookingChoiceProvider } from './context/BookingChoice'
 import { SiteProvider, useSite } from './context/SiteContext'
 
 const Services = lazy(() => import('./components/Services').then((m) => ({ default: m.Services })))
@@ -48,7 +49,9 @@ function Page() {
 export default function App() {
   return (
     <SiteProvider>
-      <Page />
+      <BookingChoiceProvider>
+        <Page />
+      </BookingChoiceProvider>
     </SiteProvider>
   )
 }

@@ -1,6 +1,7 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { ArrowLeft, ArrowRight, CheckCircle2, Upload } from 'lucide-react'
 import { submitBooking } from '../api/client'
+import { useBookingChoice } from '../context/BookingChoice'
 import { useSite } from '../context/SiteContext'
 import { useInView } from '../hooks/useInView'
 
@@ -30,15 +31,55 @@ const initial: FormFields = {
   comment: '',
 }
 
+const itemService = /матрац|диван|стільц|крісл|хімчист/i
+
+function withCurrent(options: string[], current: string) {
+  if (!current || options.includes(current)) return options
+  return [current, ...options]
+}
+
+function ChosenValue({ label, value, onEdit }: { label: string; value: string; onEdit: () => void }) {
+  return (
+    <div className="rounded-[0.95rem] bg-[#f6f8fb] px-4 py-3">
+      <p className="text-xs font-bold uppercase tracking-wide text-ink-muted">{label}</p>
+      <div className="mt-1 flex items-center justify-between gap-3">
+        <p className="font-bold text-ink">{value}</p>
+        <button type="button" onClick={onEdit} className="text-sm font-extrabold text-accent-dark">
+          Змінити
+        </button>
+      </div>
+    </div>
+  )
+}
+
 export function BookingForm() {
   const { booking, hero } = useSite()
+  const choice = useBookingChoice()
   const [step, setStep] = useState(0)
   const [form, setForm] = useState<FormFields>(initial)
   const [photos, setPhotos] = useState<File[]>([])
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
   const [pending, setPending] = useState(false)
+  const [editProperty, setEditProperty] = useState(false)
+  const [editCleaning, setEditCleaning] = useState(false)
   const { ref, visible } = useInView()
+  const propertyType = choice.propertyType
+  const cleaningType = choice.cleaningType
+  const skipArea = itemService.test(cleaningType || form.cleaning_type)
+  const chosen = [propertyType, cleaningType].filter(Boolean)
+
+  useEffect(() => {
+    if (!propertyType) return
+    setForm((prev) => ({ ...prev, property_type: propertyType }))
+    setEditProperty(false)
+  }, [propertyType])
+
+  useEffect(() => {
+    if (!cleaningType) return
+    setForm((prev) => ({ ...prev, cleaning_type: cleaningType }))
+    setEditCleaning(false)
+  }, [cleaningType])
 
   const update = (field: keyof FormFields, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }))
@@ -49,7 +90,13 @@ export function BookingForm() {
     setError('')
     setPending(true)
     const payload = new FormData()
-    Object.entries(form).forEach(([key, value]) => payload.append(key, value))
+    const fields = {
+      ...form,
+      property_type: propertyType || form.property_type,
+      cleaning_type: cleaningType || form.cleaning_type,
+      area: skipArea ? '—' : form.area,
+    }
+    Object.entries(fields).forEach(([key, value]) => payload.append(key, value))
     photos.forEach((file) => payload.append('photos', file))
     try {
       await submitBooking(payload)
@@ -69,6 +116,9 @@ export function BookingForm() {
             <CheckCircle2 className="mx-auto h-14 w-14 text-gold" />
             <h2 className="mt-6 font-display text-4xl text-ink">{booking.success_title}</h2>
             <p className="mt-4 text-ink-muted">{booking.success_text.replace('{name}', form.name)}</p>
+            {chosen.length > 0 && (
+              <p className="mt-4 text-sm font-bold text-ink">{chosen.join(' · ')}</p>
+            )}
           </div>
         </div>
       </section>
@@ -110,6 +160,12 @@ export function BookingForm() {
               </div>
             ))}
           </div>
+
+          {chosen.length > 0 && (
+            <p className="mt-6 rounded-[0.95rem] bg-cream px-4 py-3 text-sm font-bold text-ink">
+              У заявці: {chosen.join(' · ')}
+            </p>
+          )}
 
           {step === 0 && (
             <div className="mt-8 grid gap-5 sm:grid-cols-2">
@@ -159,46 +215,74 @@ export function BookingForm() {
                   className="field"
                 />
               </label>
-              <label className="block">
-                <span className="mb-2 block text-sm font-bold text-ink">{booking.property_type_label}</span>
-                <select
-                  required
-                  value={form.property_type}
-                  onChange={(e) => update('property_type', e.target.value)}
-                  className="field"
-                >
-                  <option value="">{booking.property_type_placeholder}</option>
-                  {booking.property_types.map((type) => (
-                    <option key={type} value={type}>{type}</option>
-                  ))}
-                </select>
-              </label>
-              <label className="block">
-                <span className="mb-2 block text-sm font-bold text-ink">{booking.area_label}</span>
-                <input
-                  required
-                  type="number"
-                  min={1}
-                  value={form.area}
-                  onChange={(e) => update('area', e.target.value)}
-                  placeholder={booking.area_placeholder}
-                  className="field"
-                />
-              </label>
-              <label className="block sm:col-span-2">
-                <span className="mb-2 block text-sm font-bold text-ink">{booking.cleaning_type_label}</span>
-                <select
-                  required
-                  value={form.cleaning_type}
-                  onChange={(e) => update('cleaning_type', e.target.value)}
-                  className="field"
-                >
-                  <option value="">{booking.cleaning_type_placeholder}</option>
-                  {booking.cleaning_types.map((type) => (
-                    <option key={type} value={type}>{type}</option>
-                  ))}
-                </select>
-              </label>
+              {propertyType && !editProperty ? (
+                <div className={skipArea ? 'sm:col-span-2' : undefined}>
+                  <ChosenValue
+                    label={booking.property_type_label}
+                    value={propertyType}
+                    onEdit={() => setEditProperty(true)}
+                  />
+                </div>
+              ) : (
+                <label className={`block ${skipArea ? 'sm:col-span-2' : ''}`}>
+                  <span className="mb-2 block text-sm font-bold text-ink">{booking.property_type_label}</span>
+                  <select
+                    required
+                    value={form.property_type}
+                    onChange={(e) => {
+                      update('property_type', e.target.value)
+                      choice.setPropertyType(e.target.value)
+                    }}
+                    className="field"
+                  >
+                    <option value="">{booking.property_type_placeholder}</option>
+                    {withCurrent(booking.property_types, form.property_type).map((type) => (
+                      <option key={type} value={type}>{type}</option>
+                    ))}
+                  </select>
+                </label>
+              )}
+              {!skipArea && (
+                <label className="block">
+                  <span className="mb-2 block text-sm font-bold text-ink">{booking.area_label}</span>
+                  <input
+                    required
+                    type="number"
+                    min={1}
+                    value={form.area}
+                    onChange={(e) => update('area', e.target.value)}
+                    placeholder={booking.area_placeholder}
+                    className="field"
+                  />
+                </label>
+              )}
+              {cleaningType && !editCleaning ? (
+                <div className="sm:col-span-2">
+                  <ChosenValue
+                    label={booking.cleaning_type_label}
+                    value={cleaningType}
+                    onEdit={() => setEditCleaning(true)}
+                  />
+                </div>
+              ) : (
+                <label className="block sm:col-span-2">
+                  <span className="mb-2 block text-sm font-bold text-ink">{booking.cleaning_type_label}</span>
+                  <select
+                    required
+                    value={form.cleaning_type}
+                    onChange={(e) => {
+                      update('cleaning_type', e.target.value)
+                      choice.setCleaningType(e.target.value)
+                    }}
+                    className="field"
+                  >
+                    <option value="">{booking.cleaning_type_placeholder}</option>
+                    {withCurrent(booking.cleaning_types, form.cleaning_type).map((type) => (
+                      <option key={type} value={type}>{type}</option>
+                    ))}
+                  </select>
+                </label>
+              )}
             </div>
           )}
 

@@ -2,11 +2,11 @@ import mimetypes
 from pathlib import Path
 
 from django.conf import settings
-from django.conf.urls.static import static
 from django.contrib import admin
 from django.http import FileResponse, HttpResponse
 from django.urls import include, path, re_path
-from django.views.generic import TemplateView
+from django.views.generic import RedirectView, TemplateView
+from django.views.static import serve
 
 admin.site.site_header = 'AS clean'
 admin.site.site_title = 'Адмінка'
@@ -62,13 +62,16 @@ def frontend(request, resource=''):
 
 
 urlpatterns = [
+    path('as_admin', RedirectView.as_view(url='/as_admin/', permanent=False)),
     path('as_admin/', admin.site.urls),
     path('api/', include('cms.urls')),
     path('robots.txt', robots_txt),
     path('sitemap.xml', sitemap_xml),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += [
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+]
 
 if settings.FRONTEND_DIST.exists():
     urlpatterns += [

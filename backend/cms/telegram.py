@@ -10,6 +10,8 @@ logger = logging.getLogger(__name__)
 
 def format_booking_message(booking: Booking) -> str:
     comment = booking.comment.strip() or '—'
+    area = booking.area.strip()
+    area_line = '' if area in ('', '—') else f'Площа: {area} м²\n'
     return (
         'Нова заявка на прибирання\n\n'
         f'Імʼя: {booking.name}\n'
@@ -17,7 +19,7 @@ def format_booking_message(booking: Booking) -> str:
         f'Email: {booking.email}\n'
         f'Адреса: {booking.address}\n'
         f'Тип приміщення: {booking.property_type}\n'
-        f'Площа: {booking.area} м²\n'
+        f'{area_line}'
         f'Вид прибирання: {booking.cleaning_type}\n'
         f'Дата: {booking.date}\n'
         f'Час: {booking.time}\n'

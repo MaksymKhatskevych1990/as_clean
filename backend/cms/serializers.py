@@ -146,6 +146,7 @@ def serialize_site(request):
             'items': [
                 {
                     'title': item.title,
+                    'price': item.price,
                     'description': item.description,
                     'image': media_url(request, item.image, item.image_url),
                 }

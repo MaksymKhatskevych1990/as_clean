@@ -176,6 +176,7 @@ class ServicesSection(SingletonModel):
 
 class Service(OrderedModel):
     title = models.CharField('Назва', max_length=160)
+    price = models.CharField('Ціна', max_length=80, blank=True)
     description = models.TextField('Опис')
     image = models.ImageField('Фото', upload_to='services/', blank=True)
     image_url = models.URLField('Фото (URL)', blank=True)

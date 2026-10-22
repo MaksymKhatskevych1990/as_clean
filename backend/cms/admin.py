@@ -139,10 +139,10 @@ class ServicesSectionAdmin(SingletonAdmin):
 
 @admin.register(models.Service)
 class ServiceAdmin(OrderedAdmin):
-    list_display = ('preview', 'title', 'order')
+    list_display = ('preview', 'title', 'price', 'order')
     list_editable = ('order',)
     readonly_fields = ('preview',)
-    fields = ('title', 'description', 'preview', 'image', 'image_url', 'order')
+    fields = ('title', 'price', 'description', 'preview', 'image', 'image_url', 'order')
 
     def preview(self, obj):
         return thumb(obj.image.url if obj.image else obj.image_url, obj.title)
@@ -341,9 +341,9 @@ class BookingPhotoInline(admin.TabularInline):
 
 @admin.register(models.Booking)
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('received', 'name', 'phone', 'cleaning_type', 'visit', 'telegram_state')
-    list_filter = ('telegram_sent', 'cleaning_type', 'created_at')
-    search_fields = ('name', 'phone', 'email', 'address')
+    list_display = ('received', 'name', 'phone', 'property_type', 'cleaning_type', 'visit', 'telegram_state')
+    list_filter = ('telegram_sent', 'cleaning_type', 'property_type', 'created_at')
+    search_fields = ('name', 'phone', 'email', 'address', 'property_type', 'cleaning_type')
     readonly_fields = (
         'name', 'phone', 'email', 'address', 'property_type', 'area',
         'cleaning_type', 'date', 'time', 'comment', 'telegram_sent', 'telegram_error', 'created_at',

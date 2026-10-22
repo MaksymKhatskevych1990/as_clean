@@ -67,7 +67,7 @@ export type SiteContent = {
   services: {
     title: string
     subtitle: string
-    items: { title: string; description: string; image: string }[]
+    items: { title: string; price: string; description: string; image: string }[]
   }
   why_us: {
     title: string

@@ -81,7 +81,7 @@ export const fallbackSite: SiteContent = {
     secondary_cta_href: '#portfolio',
     image: 'https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?w=900&q=80',
     image_alt: 'Світла чиста вітальня після прибирання',
-    caption: 'Середня оцінка клієнтів — 4,9 · понад 5000 замовлень',
+    caption: '',
     badges: trustBadges,
   },
   services: {
@@ -115,7 +115,7 @@ export const fallbackSite: SiteContent = {
   },
   pricing: {
     title: 'Ціни',
-    subtitle: 'Орієнтовна вартість — точну суму скажемо після уточнення площі.',
+    subtitle: 'Кожна послуга рахується індивідуально. Мінімальне замовлення на прибирання — від 2 500 грн. Сушка меблів після хімчистки — у подарунок.',
     plans: pricingPlans.map((plan) => ({ ...plan, cta_text: 'Замовити' })),
   },
   testimonials: {
