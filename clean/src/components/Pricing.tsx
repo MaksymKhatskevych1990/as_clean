@@ -152,7 +152,7 @@ export function Pricing() {
                   className="flex shrink-0 flex-col border-r border-ink/10 px-5 py-7 last:border-r-0 sm:px-6"
                   style={{ width: itemWidth || undefined }}
                 >
-                  <h3 className="font-display text-2xl leading-tight text-ink">{plan.name}</h3>
+                  <h3 className="min-h-[2.5em] font-display text-2xl leading-tight text-ink">{plan.name}</h3>
                   <p className="mt-3 font-display text-4xl leading-none text-navy">
                     {plan.price}
                     <span className="ml-2 text-base font-sans font-semibold tracking-normal text-ink-muted">
