@@ -59,6 +59,8 @@ _SEO_PAGES = {
     },
 }
 
+_SITEMAP_LASTMOD = '2026-11-05'
+
 
 def robots_txt(request):
     sitemap = f'{settings.SITE_URL}/sitemap.xml'
@@ -76,7 +78,13 @@ def robots_txt(request):
 def sitemap_xml(request):
     base = settings.SITE_URL.rstrip('/')
     urls = [f'{base}/', *(f'{base}/{slug}/' for slug in _SEO_PAGES)]
-    entries = '\n'.join(f'  <url><loc>{url}</loc></url>' for url in urls)
+    entries = '\n'.join(
+        '  <url>\n'
+        f'    <loc>{html.escape(url)}</loc>\n'
+        f'    <lastmod>{_SITEMAP_LASTMOD}</lastmod>\n'
+        '  </url>'
+        for url in urls
+    )
     body = f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{entries}\n</urlset>\n'
     return HttpResponse(body, content_type='application/xml; charset=utf-8')
 
