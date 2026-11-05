@@ -26,7 +26,7 @@ export const services = [
     title: 'Прибирання будинків',
     price: 'від 130 грн/м²',
     description: 'Комплексний догляд за приватними будинками, садовими зонами та великими приміщеннями.',
-    image: 'https://images.unsplash.com/photo-1527515637462-cff94cdd86dc?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80',
   },
   {
     title: 'Прибирання офісів',
@@ -50,7 +50,7 @@ export const services = [
     title: 'Миття вікон',
     price: '',
     description: 'Без розводів і подряпин — професійне миття вікон, балконів та скляних фасадів.',
-    image: 'https://images.unsplash.com/photo-1523419409543-0c2d524b0f8c?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80',
   },
   {
     title: 'Хімчистка меблів',
