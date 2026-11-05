@@ -9,7 +9,7 @@ export function FAQ() {
   const { ref, visible } = useInView()
 
   return (
-    <section className="bg-cream py-16 lg:py-24">
+    <section id="faq" className="bg-cream py-16 lg:py-24">
       <div ref={ref} className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr]">
         <div className={visible ? 'opacity-100' : 'opacity-0'}>
           <SectionHeading title={faq.title} />
@@ -31,9 +31,7 @@ export function FAQ() {
                     {open ? '–' : '+'}
                   </span>
                 </button>
-                {open && (
-                  <p className="pb-5 pr-12 text-sm leading-relaxed text-ink-muted">{item.answer}</p>
-                )}
+                <p hidden={!open} className="pb-5 pr-12 text-sm leading-relaxed text-ink-muted">{item.answer}</p>
               </div>
             )
           })}

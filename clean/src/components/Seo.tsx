@@ -23,8 +23,13 @@ function upsertJsonLd(id: string, data: Record<string, unknown>) {
   script.textContent = JSON.stringify(data)
 }
 
+function priceAmount(value: string) {
+  const digits = value.replace(/[^\d]/g, '')
+  return digits || undefined
+}
+
 export function Seo() {
-  const { seo, contact, header } = useSite()
+  const { seo, contact, header, pricing, faq } = useSite()
 
   useEffect(() => {
     if (seo.title) document.title = seo.title
@@ -61,28 +66,75 @@ export function Seo() {
 
     const phone = contact.cards.find((card) => /телефон|phone/i.test(card.label) && card.value.trim())
     const email = contact.cards.find((card) => /email|пошта/i.test(card.label) && card.value.trim())
-    const address = contact.cards.find((card) => /адрес/i.test(card.label) && card.value.trim())
-    const brand = `${header.brand_primary} ${header.brand_accent}`.trim()
+    const brand = `${header.brand_primary} ${header.brand_accent}`.trim() || 'AS clean'
+    const sameAs = contact.socials.map((item) => item.url).filter(Boolean)
+    const offers = pricing.plans.flatMap((plan) => {
+      const price = priceAmount(plan.price)
+      if (!price) return []
+      return [{
+        '@type': 'Offer',
+        price,
+        priceCurrency: 'UAH',
+        unitText: plan.unit,
+        itemOffered: {
+          '@type': 'Service',
+          name: `${plan.name} у Дніпрі`,
+          areaServed: 'Дніпро',
+        },
+      }]
+    })
 
     const jsonLd: Record<string, unknown> = {
       '@context': 'https://schema.org',
-      '@type': 'LocalBusiness',
-      name: brand || 'AS clean',
+      '@type': 'HouseCleaner',
+      name: brand,
       description: seo.description,
-      areaServed: 'Дніпро',
+      priceRange: 'від 130 грн/м²',
+      areaServed: ['Дніпро', 'Дніпропетровська область'],
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Дніпро',
+        addressRegion: 'Дніпропетровська область',
         addressCountry: 'UA',
-        streetAddress: address?.value || 'Дніпро',
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: 48.4647,
+        longitude: 35.0462,
+      },
+      openingHoursSpecification: {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        opens: '08:00',
+        closes: '22:00',
       },
     }
     if (phone?.value) jsonLd.telephone = phone.value
     if (email?.value) jsonLd.email = email.value
     if (seo.og_image) jsonLd.image = seo.og_image
     if (seo.canonical) jsonLd.url = seo.canonical
+    if (sameAs.length) jsonLd.sameAs = sameAs
+    if (offers.length) {
+      jsonLd.hasOfferCatalog = {
+        '@type': 'OfferCatalog',
+        name: 'Ціни на прибирання у Дніпрі',
+        itemListElement: offers,
+      }
+    }
     upsertJsonLd('ld-local-business', jsonLd)
-  }, [seo, contact, header])
+
+    if (faq.items.length) {
+      upsertJsonLd('ld-faq', {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faq.items.map((item) => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: { '@type': 'Answer', text: item.answer },
+        })),
+      })
+    }
+  }, [seo, contact, header, pricing, faq])
 
   return null
 }
