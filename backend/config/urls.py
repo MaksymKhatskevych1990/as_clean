@@ -126,17 +126,50 @@ def _service_html(dist, slug, page):
     }
     source = source.replace('</head>', f'<script type="application/ld+json" id="ld-service-static">{json.dumps(schema, ensure_ascii=False)}</script>\n</head>')
     related = ''.join(
-        f'<li><a href="/{related_slug}/">{html.escape(related_page["name"])}</a></li>'
+        f'<a href="/{related_slug}/">{html.escape(related_page["name"])}</a>'
         for related_slug, related_page in _SEO_PAGES.items()
         if related_slug != slug
     )
     initial_content = (
-        '<div id="root"><main>'
-        f'<article><nav><a href="/">Головна</a></nav><h1>{html.escape(page["name"])}</h1>'
-        f'<p>{html.escape(page["description"])}</p><p>{html.escape(page["price"])}</p>'
-        '<p><a href="/#booking">Розрахувати вартість</a></p></article>'
-        f'<nav aria-label="Інші послуги"><ul>{related}</ul></nav>'
-        '</main></div>'
+        '<div id="root">'
+        '<style>'
+        '.seo-initial{position:fixed;inset:0;z-index:9999;overflow:auto;background:#071422;color:#fff;'
+        'font-family:Manrope,Arial,sans-serif;-webkit-font-smoothing:antialiased}'
+        '.seo-initial *{box-sizing:border-box}.seo-initial a{text-decoration:none}'
+        '.seo-initial-header{height:84px;background:#fff;display:flex;align-items:center;justify-content:space-between;'
+        'padding:0 max(24px,calc((100vw - 1152px)/2));box-shadow:0 8px 24px rgba(7,20,34,.08)}'
+        '.seo-initial-brand{font-size:23px;font-weight:800;color:#071422}.seo-initial-brand span{color:#2b6de0}'
+        '.seo-initial-order{border-radius:999px;background:#f0b429;color:#071422;padding:13px 22px;font-weight:800}'
+        '.seo-initial-hero{min-height:calc(100vh - 84px);display:grid;grid-template-columns:1.05fr .95fr;'
+        'align-items:center;gap:48px;max-width:1152px;margin:auto;padding:64px 24px}'
+        '.seo-initial-breadcrumb{font-size:14px;color:rgba(255,255,255,.62)}'
+        '.seo-initial-breadcrumb a{color:inherit}.seo-initial-kicker{margin:42px 0 0;color:#f0b429;font-size:12px;'
+        'font-weight:800;letter-spacing:.2em;text-transform:uppercase}'
+        '.seo-initial h1{max-width:700px;margin:16px 0 0;font-size:clamp(40px,5vw,64px);line-height:1.05;letter-spacing:-.04em}'
+        '.seo-initial-copy{max-width:650px;margin:24px 0 0;color:rgba(255,255,255,.76);font-size:18px;line-height:1.65}'
+        '.seo-initial-price{margin:22px 0 0;color:#f0b429;font-size:27px;font-weight:800}'
+        '.seo-initial-cta{display:inline-block;margin-top:30px;border-radius:999px;background:#f0b429;color:#071422;'
+        'padding:15px 24px;font-weight:800}.seo-initial-photo{width:100%;aspect-ratio:4/3;border-radius:32px;object-fit:cover}'
+        '.seo-initial-related{display:flex;flex-wrap:wrap;gap:10px;grid-column:1/-1}'
+        '.seo-initial-related a{border:1px solid rgba(255,255,255,.25);border-radius:999px;color:#fff;padding:9px 14px;font-size:13px}'
+        '@media(max-width:760px){.seo-initial-header{height:70px;padding:0 18px}.seo-initial-order{padding:10px 15px;font-size:13px}'
+        '.seo-initial-hero{min-height:auto;display:block;padding:44px 20px}.seo-initial h1{font-size:42px}'
+        '.seo-initial-copy{font-size:16px}.seo-initial-photo{margin-top:38px}.seo-initial-related{margin-top:30px}}'
+        '</style>'
+        '<div class="seo-initial">'
+        '<header class="seo-initial-header"><a class="seo-initial-brand" href="/">AS <span>clean</span></a>'
+        '<a class="seo-initial-order" href="/#booking">Замовити прибирання</a></header>'
+        '<main class="seo-initial-hero"><article>'
+        f'<nav class="seo-initial-breadcrumb"><a href="/">Головна</a> &nbsp;/&nbsp; {html.escape(page["name"])}</nav>'
+        '<p class="seo-initial-kicker">Професійний клінінг у Дніпрі</p>'
+        f'<h1>{html.escape(page["name"])}</h1>'
+        f'<p class="seo-initial-copy">{html.escape(page["description"])}</p>'
+        f'<p class="seo-initial-price">{html.escape(page["price"])}</p>'
+        '<a class="seo-initial-cta" href="/#booking">Розрахувати вартість</a></article>'
+        f'<img class="seo-initial-photo" src="{image_attr}" alt="{html.escape(page["name"], quote=True)}" '
+        'width="1200" height="900" fetchpriority="high">'
+        f'<nav class="seo-initial-related" aria-label="Інші послуги">{related}</nav>'
+        '</main></div></div>'
     )
     source = source.replace('<div id="root"></div>', initial_content)
     return HttpResponse(source, content_type='text/html; charset=utf-8')
