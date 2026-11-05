@@ -1,5 +1,6 @@
 import { useBookingChoice } from '../context/BookingChoice'
 import { useSite } from '../context/SiteContext'
+import { servicePageHref } from '../data/servicePages'
 import { useInView } from '../hooks/useInView'
 import { SectionHeading } from './SectionHeading'
 
@@ -35,19 +36,28 @@ export function Services() {
                   {String(index + 1).padStart(2, '0')}
                 </p>
                 <h3 className="mt-2 font-display text-3xl leading-tight text-ink">
-                  {service.title}
+                  {servicePageHref(service.title) ? (
+                    <a href={servicePageHref(service.title)} className="hover:text-accent-dark">{service.title}</a>
+                  ) : service.title}
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-ink-muted">
                   {service.description}
                 </p>
-                <a
-                  href="#booking"
-                  onClick={() => select(service.title)}
-                  className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold text-accent-dark"
-                >
-                  {header.cta_text}
-                  <span aria-hidden>→</span>
-                </a>
+                <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3">
+                  <a
+                    href="#booking"
+                    onClick={() => select(service.title)}
+                    className="inline-flex items-center gap-2 text-sm font-extrabold text-accent-dark"
+                  >
+                    {header.cta_text}
+                    <span aria-hidden>→</span>
+                  </a>
+                  {servicePageHref(service.title) && (
+                    <a href={servicePageHref(service.title)} className="text-sm font-bold text-ink-muted hover:text-ink">
+                      Детальніше
+                    </a>
+                  )}
+                </div>
               </div>
             </article>
           ))}

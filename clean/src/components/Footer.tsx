@@ -1,8 +1,11 @@
 import { useSite } from '../context/SiteContext'
+import { servicePageHref } from '../data/servicePages'
 import logo from '../img/logo.webp'
 
 export function Footer() {
   const { footer, header } = useSite()
+  const onHome = window.location.pathname === '/'
+  const navHref = (href: string) => onHome || !href.startsWith('#') ? href : `/${href}`
 
   return (
     <footer className="bg-navy text-white">
@@ -10,7 +13,7 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
         <div className="grid gap-12 lg:grid-cols-3">
           <div>
-            <a href="#hero" className="inline-block rounded-2xl bg-white p-2">
+            <a href={onHome ? '#hero' : '/'} className="inline-block rounded-2xl bg-white p-2">
               <img
                 src={logo}
                 alt={`${footer.brand_primary} ${footer.brand_accent}`.trim() || 'AS clean'}
@@ -27,7 +30,7 @@ export function Footer() {
             <ul className="mt-4 space-y-2">
               {header.nav.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="text-sm text-white/70 hover:text-white">
+                  <a href={navHref(link.href)} className="text-sm text-white/70 hover:text-white">
                     {link.label}
                   </a>
                 </li>
@@ -39,7 +42,11 @@ export function Footer() {
             <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-gold">{footer.services_title}</p>
             <ul className="mt-4 space-y-2 text-sm text-white/70">
               {footer.services.map((item) => (
-                <li key={item}>{item}</li>
+                <li key={item}>
+                  {servicePageHref(item) ? (
+                    <a href={servicePageHref(item)} className="hover:text-white">{item}</a>
+                  ) : item}
+                </li>
               ))}
             </ul>
           </div>

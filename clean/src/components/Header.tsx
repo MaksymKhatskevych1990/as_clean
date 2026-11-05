@@ -8,6 +8,8 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const brand = `${header.brand_primary} ${header.brand_accent}`.trim()
+  const onHome = window.location.pathname === '/'
+  const navHref = (href: string) => onHome || !href.startsWith('#') ? href : `/${href}`
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -23,7 +25,7 @@ export function Header() {
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2.5 sm:px-6">
-        <a href="#hero" className="flex min-w-0 shrink-0 items-center">
+        <a href={onHome ? '#hero' : '/'} className="flex min-w-0 shrink-0 items-center">
           <img src={logo} alt={brand || 'AS clean'} className="h-14 w-auto object-contain sm:h-16" />
         </a>
 
@@ -31,7 +33,7 @@ export function Header() {
           {header.nav.filter((link) => link.href !== '#hero').map((link) => (
             <a
               key={link.href}
-              href={link.href}
+              href={navHref(link.href)}
               className="text-sm font-semibold text-ink-muted transition hover:text-ink"
             >
               {link.label}
@@ -61,7 +63,7 @@ export function Header() {
             {header.nav.map((link) => (
               <a
                 key={link.href}
-                href={link.href}
+                href={navHref(link.href)}
                 className="rounded-xl px-2 py-3 text-base font-semibold text-ink"
                 onClick={() => setOpen(false)}
               >

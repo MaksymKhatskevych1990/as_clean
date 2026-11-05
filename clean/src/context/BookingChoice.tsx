@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useState, type ReactNode } from 'react'
 
 type BookingChoice = {
   propertyType: string
@@ -34,13 +34,13 @@ function classify(title: string): Partial<BookingChoice> {
 export function BookingChoiceProvider({ children }: { children: ReactNode }) {
   const [choice, setChoice] = useState<BookingChoice>(empty)
 
-  const select = (title: string) => {
+  const select = useCallback((title: string) => {
     const next = classify(title)
     setChoice((prev) => ({
       propertyType: next.propertyType ?? prev.propertyType,
       cleaningType: next.cleaningType ?? prev.cleaningType,
     }))
-  }
+  }, [])
 
   return (
     <BookingChoiceContext.Provider

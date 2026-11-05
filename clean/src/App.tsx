@@ -6,8 +6,10 @@ import { Footer } from './components/Footer'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { Seo } from './components/Seo'
+import { ServiceLanding } from './components/ServiceLanding'
 import { BookingChoiceProvider } from './context/BookingChoice'
 import { SiteProvider, useSite } from './context/SiteContext'
+import { servicePageBySlug } from './data/servicePages'
 
 const Services = lazy(() => import('./components/Services').then((m) => ({ default: m.Services })))
 const WhyUs = lazy(() => import('./components/WhyUs').then((m) => ({ default: m.WhyUs })))
@@ -20,6 +22,10 @@ const FAQ = lazy(() => import('./components/FAQ').then((m) => ({ default: m.FAQ 
 
 function Page() {
   const { sections } = useSite()
+  const slug = window.location.pathname.replace(/^\/|\/$/g, '')
+  const servicePage = servicePageBySlug[slug]
+
+  if (servicePage) return <ServiceLanding page={servicePage} />
 
   return (
     <>

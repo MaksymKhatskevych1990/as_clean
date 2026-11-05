@@ -87,6 +87,7 @@ export function Seo() {
     const jsonLd: Record<string, unknown> = {
       '@context': 'https://schema.org',
       '@type': 'HouseCleaner',
+      '@id': 'https://asclean.dp.ua/#business',
       name: brand,
       description: seo.description,
       priceRange: 'від 130 грн/м²',
